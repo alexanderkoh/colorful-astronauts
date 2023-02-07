@@ -4,6 +4,7 @@ import cv2
 import PIL.ImageFont as ImageFont
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
+import hashlib
 
 def generate_image(string):
 	# Load the template image
@@ -13,7 +14,7 @@ def generate_image(string):
 	hex_code = string.encode().hex()
 
 	# Generate a unique identifier based on the HEX code
-	identifier = int(hex_code, 16) % 1000
+	identifier = int(hashlib.sha256(hex_code.encode()).hexdigest(), 16) % 1000
 
 	# Create a copy of the template image
 	image = template.copy()
@@ -63,11 +64,11 @@ def generate_image(string):
 	draw.text((text_x, text_y), string, font=font, fill=(0, 0, 0, 255))
 
 	# Save the final image
-	frame.save("frame_3_{}.png".format(hex_code))
+	frame.save("astronaut_{}.png".format(hex_code))
 
 
 # Prompt the user to input a string
-string = input("Enter a string: ")
+string = input("Enter your username: ")
 
 # Generate the image
 generate_image(string)
